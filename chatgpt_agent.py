@@ -4,6 +4,7 @@ import schedule
 import time
 from datetime import datetime
 import openai
+import sys
 
 openai.api_key = "YOUR_OPENAI_API_KEY"
 
@@ -38,6 +39,11 @@ def process_ideas():
     else:
         print("ℹ️ No pending ideas found.")
 
+# Check if manually triggered
+if "--now" in sys.argv:
+    process_ideas()
+    sys.exit(0)  # Exit after one run
+    
 schedule.every().day.at("22:00").do(process_ideas)
 
 print("🤖 ChatGPT LinkedIn Post Agent running... (Ctrl+C to stop)")
