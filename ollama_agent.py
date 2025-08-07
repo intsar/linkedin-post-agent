@@ -4,6 +4,7 @@ import schedule
 import time
 from datetime import datetime
 import requests
+import sys
 
 def generate_post_with_ollama(idea):
     response = requests.post(
@@ -39,6 +40,11 @@ def process_ideas():
     else:
         print("ℹ️ No pending ideas found.")
 
+# Check if manually triggered
+if "--now" in sys.argv:
+    process_ideas()
+    sys.exit(0)  # Exit after one run
+    
 schedule.every().day.at("22:00").do(process_ideas)
 
 print("🤖 Ollama LinkedIn Post Agent running... (Ctrl+C to stop)")
